@@ -1,7 +1,3 @@
-/* document.querySelectorAll("#form-user-create [name-gender]"); 
-querySelectorAll procura todos, querySelector procura o primeiro
-*/
-
 var name = document.querySelector("#exampleInputName");
 var gender = document.querySelectorAll("#form-user-create [name-gender]:checked");
 var birth = document.querySelector("#exampleInputBirth");
@@ -10,3 +6,11 @@ var email = document.querySelector("#exampleInputEmail");
 var password = document.querySelector("#exampleInputPassword");
 var photo = document.querySelector("#exampleInputFile");
 var admin = document.querySelector("#exampleInputAdmin");
+
+var fields = document.querySelectorAll("#form-user-create [name]");
+
+fields.forEach(function(field, index){
+
+    console.log(field.id, field.name, field.value, field.checked, index);
+    
+});
