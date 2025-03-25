@@ -167,13 +167,31 @@ class UserController {
 
             for (let name in json) {
 
-                let field = form.querySelector("[name=" + name.replace("_", "") + "]")
+                let field = form.querySelector("[name=" + name.replace("_", "") + "]");
                 
                 if (field) {
-                    
-                    if (field.type == 'file') continue;
 
-                    field.value = json[name];
+                    switch (field.type) {
+                        case 'file':
+                            continue;
+                            break;
+                    
+                        case 'radio':
+                            field = form.querySelector("[name=" + name.replace("_", "") + "][value=" + json[name] + "]");
+                            if (field) { //não tenho ctz desse if
+                            field.checked = true;
+                            }
+                        break;
+
+                        case 'checkbox':
+                            field.checked = json[name];
+                        break;
+
+                        default:
+                            field.value = json[name];
+                        break;
+                    }
+
                 }
 
             }
@@ -211,7 +229,9 @@ class UserController {
 
             numberUsers++;
 
-            if (user._admin) numberAdmin++;
+            let userData = JSON.parse(tr.dataset.user);
+
+            if (userData._admin) numberAdmin++;
 
         });
 
