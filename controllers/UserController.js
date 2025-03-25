@@ -6,7 +6,18 @@ class UserController {
         this.tableEl = document.getElementById(tableId);
 
         this.onSubmit();
+        this.onEditCancel();
         
+    }
+
+    onEditCancel(){
+
+        document.querySelector("#box-user-update .btn-cancel").addEventListener("click", e=>{
+
+            this.showPanelCreate();
+
+        })
+
     }
 
     onSubmit(){
@@ -96,20 +107,18 @@ class UserController {
 
             }
 
-            if (field.name == "gender") {
+            if (field.name === "gender" && field.checked) {
 
-                if(field.checked) {
-                    user[field.name] = field.value;
-                }
+              user[field.name] = field.value;
 
-            } else if(field.name == "admin") {
+            } else if (field.name === "admin") {
 
-                user[field.name] = field.checked;
+              user[field.name] = field.checked;
 
-            } else {
+            } else if (field.value) {
 
-                user[field.name] = field.value;
-            
+              user[field.name] = field.value;
+              
             }
         
         });
@@ -146,14 +155,36 @@ class UserController {
             <td>${(dataUser.admin) ? 'Sim' : 'Não'}</td>
             <td>${Utils.dateFormat(dataUser.register)}</td>
             <td>
-                <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
+                <button type="button" class="btn btn-primary btn-edit btn-flat">Editar</button>
                 <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
             </td>
         `;
 
+        tr.querySelector(".btn-edit").addEventListener("click", e=>{
+
+            console.log(JSON.parse(tr.dataset.user));
+
+            this.showPanelupdate();
+
+        });
+
         this.tableEl.appendChild(tr);
 
         this.updateCount();
+
+    }
+
+    showPanelCreate(){
+
+        document.querySelector("#box-user-create").style.display = "block";
+        document.querySelector("#box-user-update").style.display = "none";
+
+    }
+
+    showPanelupdate(){
+
+        document.querySelector("#box-user-create").style.display = "none";
+        document.querySelector("#box-user-update").style.display = "block";
 
     }
 
@@ -170,8 +201,8 @@ class UserController {
 
         });
 
-        document.querySelector("number-users").innerHTML = numberUsers;
-        document.querySelector("number-users-admin").innerHTML = numberAdmin;
+        document.querySelector("#number-users").innerHTML = numberUsers;
+        document.querySelector("#number-users-admin").innerHTML = numberAdmin;
 
     }
 
