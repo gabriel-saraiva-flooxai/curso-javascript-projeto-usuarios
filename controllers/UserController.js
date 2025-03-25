@@ -21,6 +21,8 @@ class UserController {
 
             let values = this.getValues();
             
+            if (!values) return false;
+
             this.getPhoto().then(
                 (content) => {
 
@@ -100,7 +102,7 @@ class UserController {
                     user[field.name] = field.value;
                 }
 
-            } else if(field.name === "admin") {
+            } else if(field.name == "admin") {
 
                 user[field.name] = field.checked;
 
@@ -112,7 +114,9 @@ class UserController {
         
         });
 
-        if (isValid) {
+        console.log(user);
+
+        if (!isValid) {
             return false;
         }
 
@@ -133,6 +137,8 @@ class UserController {
 
         let tr = document.createElement('tr');
 
+        tr.dataset.user = JSON.stringify(dataUser);
+
         tr.innerHTML = `
             <td><img src="${dataUser.photo}" alt="User Image" class="img-circle img-sm"></td>
             <td>${dataUser.name}</td>
@@ -145,8 +151,27 @@ class UserController {
             </td>
         `;
 
-
         this.tableEl.appendChild(tr);
+
+        this.updateCount();
+
+    }
+
+    updateCount(){
+
+        let numberUsers = 0;
+        let numberAdmin = 0;
+
+        [...this.tableEl.children].forEach(tr=>{
+
+            numberUsers++;
+
+            if (user._admin) numberAdmin++;
+
+        });
+
+        document.querySelector("number-users").innerHTML = numberUsers;
+        document.querySelector("number-users-admin").innerHTML = numberAdmin;
 
     }
 
