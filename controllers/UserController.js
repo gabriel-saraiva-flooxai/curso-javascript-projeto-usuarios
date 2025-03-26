@@ -209,9 +209,9 @@ class UserController {
 
         let users = [];
         
-        if (sessionStorage.getItem("users")) {
+        if (localStorage.getItem("users")) {
 
-            users = JSON.parse(sessionStorage.getItem("users"));
+            users = JSON.parse(localStorage.getItem("users"));
 
         }
 
@@ -241,7 +241,8 @@ class UserController {
 
         users.push(data);
 
-        sessionStorage.setItem("user", JSON.stringify(users));
+        //sessionStorage.setItem("user", JSON.stringify(users));
+        localStorage.setItem("user", JSON.stringify(users));
 
     }
 
